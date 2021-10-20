@@ -1,6 +1,9 @@
-package gbb.rpc.learning.server;
+package gbb.rpc.learning.socket;
 
+import gbb.rpc.learning.RequestHandler;
+import gbb.rpc.learning.RpcServer;
 import gbb.rpc.learning.registry.ServiceRegistry;
+import gbb.rpc.learning.server.RequestHandlerThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +16,8 @@ import java.util.concurrent.*;
  * @author goliang
  * @date 2021/9/25 20:08
  */
-public class RpcServer {
-    private static final Logger logger = LoggerFactory.getLogger(RpcServer.class);
+public class SocketServer implements RpcServer {
+    private static final Logger logger = LoggerFactory.getLogger(SocketServer.class);
     private static final int CORE_POOL_SIZE = 5;
     private static final int MAXMUM_POOL_SIZE = 50;
     private static final int KEEP_ALIVE_TIME = 60;
@@ -23,7 +26,7 @@ public class RpcServer {
     private final ExecutorService threadPool;
     private RequestHandler requestHandler = new RequestHandler();
 
-    public RpcServer(ServiceRegistry serviceRegistry){
+    public SocketServer(ServiceRegistry serviceRegistry){
         this.serviceRegistry = serviceRegistry;
         BlockingQueue<Runnable> workingQueue = new ArrayBlockingQueue<>(BLOCKING_QUEUE_CAPACITY);
         ThreadFactory threadFactory = Executors.defaultThreadFactory();
@@ -31,7 +34,7 @@ public class RpcServer {
                 TimeUnit.SECONDS, workingQueue, threadFactory);
 
     }
-
+    @Override
     public void start(int port){
         try(ServerSocket serverSocket = new ServerSocket(port)){
             logger.info("服务启动...");
@@ -48,7 +51,7 @@ public class RpcServer {
     }
 
 //    private static ExecutorService threadPool;
-//    public RpcServer(){
+//    public SocketServer(){
 //        int corePoolSize = 5;
 //        int maxmunPoolSize = 50;
 //        long keepAliveTime = 60;

@@ -1,18 +1,13 @@
-package gbb.rpc.learning.server;
+package gbb.rpc.learning;
 
-import com.sun.jdi.InvocationException;
 import gbb.rpc.learn.entity.RpcRequest;
 import gbb.rpc.learn.entity.RpcResponse;
 import gbb.rpc.learn.enumeration.ResponseCode;
-import gbb.rpc.learn.enumeration.RpcError;
-import gbb.rpc.learning.client.RpcClientProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.Socket;
 
 /**
  * @author goliang
@@ -39,11 +34,12 @@ public class RequestHandler {
         return result;
     }
     public Object invokeTargetMethod(RpcRequest rpcRequest, Object service) throws InvocationTargetException, IllegalAccessException {
-        Method method;
+        Method method = null;
         try {
             method = service.getClass().getMethod(rpcRequest.getMethodName(),rpcRequest.getParamsType());
         }catch (NoSuchMethodException e){
-            return RpcResponse.fail(ResponseCode.NOT_FOUND_METHOD);
+//            return RpcResponse.fail(ResponseCode.NOT_FOUND_METHOD);
+            LOGGER.info("调用时有错误发生：" + e);
         }
         return method.invoke(service,rpcRequest.getParameters());
     }

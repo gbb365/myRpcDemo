@@ -2,6 +2,7 @@ package gbb.rpc.learn.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author goliang
@@ -9,6 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
+
 public enum ResponseCode {
 
     SUCCESS(200,"调用方法成功"),

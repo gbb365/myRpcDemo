@@ -19,9 +19,9 @@ public class DefaultServiceRegistry implements ServiceRegistry{
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServiceRegistry.class);
 
     // key - 服务名(接口名)， val- 服务实体（实现类的实例对象)
-    private final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
+    private static final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
     //存放实现类的名称
-    private final Set<String> registeredService = ConcurrentHashMap.newKeySet();
+    private static final Set<String> registeredService = ConcurrentHashMap.newKeySet();
     @Override
     public <T> void registry(T service) {
         String serviceImplName = service.getClass().getCanonicalName();

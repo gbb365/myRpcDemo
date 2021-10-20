@@ -2,6 +2,7 @@ package gbb.rpc.learning.server;
 
 import gbb.rpc.learn.entity.RpcRequest;
 import gbb.rpc.learn.entity.RpcResponse;
+import gbb.rpc.learning.RequestHandler;
 import gbb.rpc.learning.registry.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

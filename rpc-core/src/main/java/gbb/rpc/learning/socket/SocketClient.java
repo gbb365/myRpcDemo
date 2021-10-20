@@ -1,11 +1,11 @@
-package gbb.rpc.learning.client;
+package gbb.rpc.learning.socket;
 
 import gbb.rpc.learn.entity.RpcRequest;
 import gbb.rpc.learn.entity.RpcResponse;
 import gbb.rpc.learn.enumeration.ResponseCode;
 import gbb.rpc.learn.enumeration.RpcError;
 import gbb.rpc.learn.exception.RpcException;
-import lombok.extern.java.Log;
+import gbb.rpc.learning.RpcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +18,18 @@ import java.net.Socket;
  * @author goliang
  * @date 2021/9/25 19:47
  */
-public class RpcClient {
-    private static final Logger logger = LoggerFactory.getLogger(RpcClient.class);
+public class SocketClient implements RpcClient {
+    private static final Logger logger = LoggerFactory.getLogger(SocketClient.class);
 
+    private final String host;
+    private final int port;
+
+    public SocketClient(String host, int port){
+        this.host = host;
+        this.port = port;
+    }
     //打开输入输出流，写入输出流，从输入流返回
-    public Object sendRequest(RpcRequest rpcRequest, String host, int port){
+    public Object sendRequest(RpcRequest rpcRequest){
         try (Socket socket = new Socket(host,port)){
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());

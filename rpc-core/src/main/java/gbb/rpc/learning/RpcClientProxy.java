@@ -1,7 +1,7 @@
-package gbb.rpc.learning.client;
+package gbb.rpc.learning;
 
 import gbb.rpc.learn.entity.RpcRequest;
-import gbb.rpc.learn.entity.RpcResponse;
+import gbb.rpc.learning.socket.SocketClient;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,18 +9,20 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Locale;
-import java.util.PriorityQueue;
 
 /**
  * @author goliang
  * @date 2021/9/25 19:58
  */
-@AllArgsConstructor
+
 public class RpcClientProxy implements InvocationHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcClientProxy.class);
-    private String host;
-    private int port;
+//    private String host;
+//    private int port;
+    private final RpcClient rpcClient;
+    public RpcClientProxy(RpcClient rpcClient){
+        this.rpcClient = rpcClient;
+    }
 
     @SuppressWarnings("unchecked")
     public <T> T getProxy(Class<T> clazz){
@@ -42,14 +44,17 @@ public class RpcClientProxy implements InvocationHandler {
 @Override
 public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         LOGGER.info("调用方法：{}#{}" + method.getDeclaringClass().getName(), method.getName());
-        RpcRequest rpcRequest = RpcRequest.builder()
-                .interfaceName(method.getDeclaringClass().getName())
-                .methodName(method.getName())
-                .parameters(args)
-                .paramsType(method.getParameterTypes())
-                .build();
-        RpcClient rpcClient = new RpcClient();
-    //    return ((RpcResponse) rpcClient.sendRequest(rpcRequest, host, port)).getData();
-        return rpcClient.sendRequest(rpcRequest, host, port);
+//        RpcRequest rpcRequest = RpcRequest.builder()
+//                .interfaceName(method.getDeclaringClass().getName())
+//                .methodName(method.getName())
+//                .parameters(args)
+//                .paramsType(method.getParameterTypes())
+//                .build();
+//        gbb.rpc.learning.client.RpcClient rpcClient = new RpcClient();
+//    //    return ((RpcResponse) rpcClient.sendRequest(rpcRequest, host, port)).getData();
+//        return rpcClient.sendRequest(rpcRequest, host, port);
+        RpcRequest rpcRequest = new RpcRequest(method.getDeclaringClass().getName(),
+                method.getName(), args, method.getParameterTypes());
+        return rpcClient.sendRequest(rpcRequest);
     }
 }

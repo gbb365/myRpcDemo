@@ -1,7 +1,7 @@
 import gbb.rpc.learning.api.HelloService;
 import gbb.rpc.learning.registry.DefaultServiceRegistry;
 import gbb.rpc.learning.registry.ServiceRegistry;
-import gbb.rpc.learning.server.RpcServer;
+
 
 /**
  * @author goliang
@@ -15,7 +15,7 @@ public class TestServer {
           HelloService helloService = new HelloServiceImpl();
           ServiceRegistry serviceRegistry = new DefaultServiceRegistry();
           serviceRegistry.registry(helloService);
-          RpcServer rpcServer = new RpcServer(serviceRegistry);
-          rpcServer.start(9000);
+//          RpcServer rpcServer = new RpcServer(serviceRegistry);
+//          rpcServer.start(9000);
     }
 }

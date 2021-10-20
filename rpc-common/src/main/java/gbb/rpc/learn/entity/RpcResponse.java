@@ -2,6 +2,7 @@ package gbb.rpc.learn.entity;
 
 import gbb.rpc.learn.enumeration.ResponseCode;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @date 2021/9/25 19:32
  */
 @Data
+@NoArgsConstructor
 public class RpcResponse <T> implements Serializable {
     private Integer statusCode;
     private String message;
